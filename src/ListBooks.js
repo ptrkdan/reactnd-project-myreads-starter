@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Book from './Book';
 
 class ListBooks extends Component {
+  static propTypes = {
+    shelves: PropTypes.objectOf(PropTypes.array).isRequired,
+    updateBook: PropTypes.func.isRequired
+  };
   
   render() {
     let { currentlyReading, wantToRead, read } = this.props.shelves;
+    let updateBook = this.props.updateBook;
 
     return (
       <div className="list-books">
@@ -22,7 +28,7 @@ class ListBooks extends Component {
                     currentlyReading[0] && (
                       currentlyReading.map( (book) => ( 
                         <li key={book.id}>
-                          <Book book={book} updateBook={this.props.updateBook} />
+                          <Book book={book} updateBook={updateBook} />
                         </li>
                       ))
                     )
@@ -38,7 +44,7 @@ class ListBooks extends Component {
                     wantToRead[0] && (
                       wantToRead.map( (book) => ( 
                         <li key={book.id}>
-                          <Book book={book} updateBook={this.props.updateBook} />
+                          <Book book={book} updateBook={updateBook} />
                         </li>
                       ))
                     )
@@ -54,7 +60,7 @@ class ListBooks extends Component {
                     read[0] && (
                       read.map( (book) => ( 
                         <li key={book.id}>
-                          <Book book={book} updateBook={this.props.updateBook} />
+                          <Book book={book} updateBook={updateBook} />
                         </li>
                       ))
                     )
