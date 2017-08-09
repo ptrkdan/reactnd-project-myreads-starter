@@ -9,14 +9,17 @@ class BooksApp extends React.Component {
   constructor(props) {
     super(props);
     this.updateBook = this.updateBook.bind(this);
+    this.searchBooks = this.searchBooks.bind(this);
   }
 
   state = {
     shelves: {
       currentlyReading: [],
       wantToRead: [],
-      read: []
-    }
+      read: [],
+      none: []
+    },
+    searchResults: []
   };
 
   updateShelves() {
@@ -43,6 +46,20 @@ class BooksApp extends React.Component {
     });
   }
 
+  searchBooks(query) {
+    const MAX_SEARCH_RESULT = 20;
+    BooksAPI.search(query, MAX_SEARCH_RESULT).then( books => {
+      if (books.error) {
+        this.setState({ searchResults: []})
+      } else {
+      console.log("query: " + query);
+      console.log(books);
+      this.setState({ searchResults: books});
+      }
+    })
+
+  }
+
   componentDidMount() {
     this.updateShelves();
   }
@@ -55,7 +72,10 @@ class BooksApp extends React.Component {
           <ListBooks shelves={this.state.shelves} updateBook={this.updateBook} />
         } />
         <Route path='/search' render={() =>
-          <SearchBooks />
+          <SearchBooks 
+            searchBooks={this.searchBooks}
+            results={this.state.searchResults}
+            updateBook={this.updateBook} />
         } />
       </div>
     );
