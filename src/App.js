@@ -48,10 +48,14 @@ class BooksApp extends React.Component {
 
   searchBooks(query) {
     const MAX_SEARCH_RESULT = 20;
-    console.log("Hey there's a query!");
     BooksAPI.search(query, MAX_SEARCH_RESULT).then( books => {
+      if (books.error) {
+        this.setState({ searchResults: []})
+      } else {
+      console.log("query: " + query);
       console.log(books);
       this.setState({ searchResults: books});
+      }
     })
 
   }
