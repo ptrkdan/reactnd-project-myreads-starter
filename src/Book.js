@@ -10,12 +10,12 @@ function Book(props) {
       <div className="book-top">
         <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${thumbnail})`}}></div>
         <div className="book-shelf-changer">
-          <select value="default"
+          <select value={book.shelf}
             onChange={ event => {
               updateBook(book.id, event.target.value);
             }
           }>
-            <option value="default" disabled>Move to...</option>
+            <option value="none" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
             <option value="read">Read</option>
