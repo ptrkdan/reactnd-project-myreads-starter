@@ -14,7 +14,7 @@ class SearchBooks extends Component {
   updateQuery(query) {
     if (query) {
       this.props.searchBooks(query);
-    }    
+    }
   }
 
   render() {
