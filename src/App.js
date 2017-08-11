@@ -59,14 +59,18 @@ class BooksApp extends React.Component {
   }
 
   searchBooks(query) {
-    const MAX_SEARCH_RESULT = 20;
-    BooksAPI.search(query, MAX_SEARCH_RESULT).then( books => {
-      if (books.error) {
-        this.setState({ searchResults: []})
-      } else {
-        this.setState({ searchResults: this.checkBookshelf(books)});
-      }
-    })
+    if (query) {
+      const MAX_SEARCH_RESULT = 20;
+      BooksAPI.search(query, MAX_SEARCH_RESULT).then( books => {
+        if (books.error) {  // no results
+          this.setState({ searchResults: []})
+        } else {
+          this.setState({ searchResults: this.checkBookshelf(books)});
+        }
+      });
+    } else {
+      this.setState({ searchResults: [] });
+    }
 
   }
 
