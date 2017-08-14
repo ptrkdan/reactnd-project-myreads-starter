@@ -1,13 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Book from './Book';
 
 class SearchBooks extends Component {
+  static propTypes = {
+    results: PropTypes.array.isRequired,
+    searchBooks: PropTypes.func.isRequired,
+    updateBook: PropTypes.func.isRequired
+
+  };
+
+  state = {
+    query: ''
+  };
 
   updateQuery(query) {
-    if (query) {
-      this.props.searchBooks(query);
-    }    
+    this.setState({ query });
+    this.props.searchBooks(query);
+  }
+
+  componentDidMount() {
+    this.updateQuery(this.state.query);
   }
 
   render() {
@@ -26,6 +40,7 @@ class SearchBooks extends Component {
               you don't find a specific author or title. Every search is limited by search terms.
             */}
             <input type="text" placeholder="Search by title or author" 
+              value={this.state.query}
               onChange={ event => this.updateQuery(event.target.value) }/>
             
           </div>
