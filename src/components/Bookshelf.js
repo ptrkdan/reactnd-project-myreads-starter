@@ -11,7 +11,7 @@ function Bookshelf(props) {
       <div className="bookshelf-books">
         <ol className="books-grid">
           { 
-            bookList[0] && (
+            bookList && (
               bookList.map( (book) => ( 
                 <li key={book.id}>
                   <Book book={book} updateBook={updateBook} />

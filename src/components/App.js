@@ -13,34 +13,20 @@ class BooksApp extends React.Component {
   }
 
   state = {
-    shelves: {
-      currentlyReading: [],
-      wantToRead: [],
-      read: []
-    },
+    books: [],
     searchResults: []
   };
 
-  updateShelves() {
+  updateBooks() {
     BooksAPI.getAll().then( books => {
-      this.setState({ shelves: { 
-        currentlyReading: books.filter( book => 
-          book.shelf === 'currentlyReading'
-        ),
-        wantToRead: books.filter ( book => 
-          book.shelf === 'wantToRead'
-        ),
-        read: books.filter ( book => 
-          book.shelf === 'read'
-        )
-      }});
+      this.setState({ books });
     });
   }
 
   updateBook(bookId, shelf) {    
     BooksAPI.get(bookId).then( book => {
       BooksAPI.update(book,shelf).then( () => {
-        this.updateShelves();
+        this.updateBooks();
       });
     });
   }
@@ -74,7 +60,7 @@ class BooksApp extends React.Component {
   }
 
   checkBookshelf(books) {
-    const { currentlyReading, wantToRead, read } = this.state.shelves;
+    const { currentlyReading, wantToRead, read } = this.categorizeBooks(this.state.books);
 
     return books.map( book => {
       book.shelf = currentlyReading.filter( book2 => book.id === book2.id).length ? 
@@ -87,8 +73,16 @@ class BooksApp extends React.Component {
     });
   }
 
+  categorizeBooks(books) {
+    const currentlyReading = books.filter( book => book.shelf === 'currentlyReading');
+    const wantToRead = books.filter( book => book.shelf === 'wantToRead' );
+    const read = books.filter( book => book.shelf === 'read' );
+
+    return { currentlyReading, wantToRead, read }
+  }
+
   componentDidMount() {
-    this.updateShelves();
+    this.updateBooks();
   }
 
   render() {
@@ -96,7 +90,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path='/' render={() =>
-          <ListBooks shelves={this.state.shelves} updateBook={this.updateBook} />
+          <ListBooks shelves={this.categorizeBooks(this.state.books)} updateBook={this.updateBook} />
         } />
         <Route path='/search' render={() =>
           <SearchBooks 
