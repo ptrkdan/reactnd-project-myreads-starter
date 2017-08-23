@@ -15,17 +15,17 @@ function ListBooks(props) {
       <div className="list-books-content">
         <div>
           <Bookshelf 
-            bookshelfTitle='currentlyReading'
+            bookshelfTitle='Currently Reading'
             bookList={currentlyReading}
             updateBook={updateBook}
           />
           <Bookshelf 
-            bookshelfTitle='wantToRead'
+            bookshelfTitle='Want To Read'
             bookList={wantToRead}
             updateBook={updateBook}
           />            
           <Bookshelf 
-            bookshelfTitle='read'
+            bookshelfTitle='Read'
             bookList={read}
             updateBook={updateBook}
           />
